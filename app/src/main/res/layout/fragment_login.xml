@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.auth.login.LoginFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:text="@string/email"
+        android:textSize="14sp"
+        android:layout_marginHorizontal="35dp"
+        android:textColor="@color/blue"
+        />
+
+    <EditText
+        android:id="@+id/input_email_login"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:drawablePadding="5dp"
+        android:fontFamily="sans-serif"
+        android:textSize="14sp"
+        android:padding="12dp"
+        android:background="@drawable/custom_input"
+        android:hint="@string/email_hint"
+        android:layout_marginHorizontal="35dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:text="@string/password"
+        android:textSize="14sp"
+        android:layout_marginHorizontal="35dp"
+        android:textColor="@color/blue"
+        />
+
+    <EditText
+        android:id="@+id/input_password_login"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:drawablePadding="5dp"
+        android:fontFamily="sans-serif"
+        android:textSize="14sp"
+        android:padding="12dp"
+        android:background="@drawable/custom_input"
+        android:hint="@string/password_hint"
+        android:layout_marginHorizontal="35dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="35dp"
+        android:text="lupa kata sandi"
+        android:textColor="@color/blue"
+        android:textAlignment="textEnd"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10sp"
+        android:text="Masuk"
+        android:layout_marginHorizontal="35dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue"
+        android:textSize="14sp"
+        android:text="atau daftar disini"
+        android:textAlignment="center"
+        />
+
+</LinearLayout>

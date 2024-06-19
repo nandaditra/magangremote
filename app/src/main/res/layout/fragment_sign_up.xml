@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.auth.signup.SignUpFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:text="@string/name"
+        android:textSize="14sp"
+        android:layout_marginHorizontal="35dp"
+        android:textColor="@color/blue"
+        />
+
+    <EditText
+        android:id="@+id/input_name_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="5dp"
+        android:fontFamily="sans-serif"
+        android:textSize="14sp"
+        android:padding="12dp"
+        android:background="@drawable/custom_input"
+        android:hint="@string/name_hint"
+        android:layout_marginHorizontal="35dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:text="@string/email"
+        android:textSize="14sp"
+        android:layout_marginHorizontal="35dp"
+        android:textColor="@color/blue"
+        />
+
+    <EditText
+        android:id="@+id/input_email_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="5dp"
+        android:fontFamily="sans-serif"
+        android:textSize="14sp"
+        android:padding="12dp"
+        android:background="@drawable/custom_input"
+        android:hint="@string/email_hint"
+        android:layout_marginHorizontal="35dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:text="@string/password"
+        android:textSize="14sp"
+        android:layout_marginHorizontal="35dp"
+        android:textColor="@color/blue"
+        />
+
+    <EditText
+        android:id="@+id/input_password_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="5dp"
+        android:fontFamily="sans-serif"
+        android:textSize="14sp"
+        android:padding="12dp"
+        android:background="@drawable/custom_input"
+        android:hint="@string/password_hint"
+        android:layout_marginHorizontal="35dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:text="@string/confirm_password"
+        android:textSize="14sp"
+        android:layout_marginHorizontal="35dp"
+        android:textColor="@color/blue"
+        />
+
+    <EditText
+        android:id="@+id/input_confirm_password_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="5dp"
+        android:fontFamily="sans-serif"
+        android:textSize="14sp"
+        android:padding="12dp"
+        android:background="@drawable/custom_input"
+        android:hint="@string/confirm_pass_hint"
+        android:layout_marginHorizontal="35dp" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_marginTop="20sp"
+        android:layout_marginHorizontal="35dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingVertical="14sp"
+        android:text="Daftar"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue"
+        android:textSize="14sp"
+        android:text="atau masuk disini"
+        android:textAlignment="center"
+        />
+
+</LinearLayout>

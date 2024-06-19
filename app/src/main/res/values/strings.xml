@@ -8,4 +8,17 @@
     <string name="requirement">Persyaratan</string>
     <string name="detail_work_desc">- Promote sound engineering practices, and drive technical strategy and roadmaps, especially in the frontend area \n - Communicate and collaborate effectively with key stakeholders and collaborators among the Engineering Payments team in a global environment, including other engineers, and product managers to identify and solve challenging problems, creating amazing engineering experience for our internal product engineering teams. \n - Mentor and provide advice to more junior engineers, guiding them in making sound architectural decisions, improving their code quality, and helping them out of their comfort zone</string>
     <string name="requirement_desc"><![CDATA[\\n At least 2+ years of hands-on experience in designing, developing, testing, deploying, and managing large-scale applications based on React, TypeScript, and large data sets\n\\n Excellent written & verbal communication skills focused on improving collaboration, understanding, and information exchange across all stakeholders\n\\n Solid understanding of building distributed and scalable systems and enjoy seeing everyone in the organization using your applications daily\n\\n Good understanding of data structures and algorithms]]></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email_hint">Masukkan email anda</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="name">name</string>
+    <string name="name_hint">masukkan nama anda</string>
+    <string name="password_hint">masukkan password anda</string>
+    <string name="confirm_pass_hint">masukkan ulang passoword anda</string>
+    <string name="confirm_password">konfirmasi password</string>
+    <string name="copyright_text">created by magangremote - 2023</string>
+    <string name="forgot_password">Lupa Password</string>
+    <string name="forgot_password_text">Lupa Password</string>
 </resources>

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">magangremote</string>
+    <string name="logo_magangremote">magangremote</string>
+    <string name="job_title">Software Engineer Intern</string>
+    <string name="company">Pt Tokopedia</string>
+    <string name="location">Jakarta</string>
+    <string name="detail_work">Detail Pekerjaan</string>
+    <string name="requirement">Persyaratan</string>
+    <string name="detail_work_desc">- Promote sound engineering practices, and drive technical strategy and roadmaps, especially in the frontend area \n - Communicate and collaborate effectively with key stakeholders and collaborators among the Engineering Payments team in a global environment, including other engineers, and product managers to identify and solve challenging problems, creating amazing engineering experience for our internal product engineering teams. \n - Mentor and provide advice to more junior engineers, guiding them in making sound architectural decisions, improving their code quality, and helping them out of their comfort zone</string>
+    <string name="requirement_desc"><![CDATA[\\n At least 2+ years of hands-on experience in designing, developing, testing, deploying, and managing large-scale applications based on React, TypeScript, and large data sets\n\\n Excellent written & verbal communication skills focused on improving collaboration, understanding, and information exchange across all stakeholders\n\\n Solid understanding of building distributed and scalable systems and enjoy seeing everyone in the organization using your applications daily\n\\n Good understanding of data structures and algorithms]]></string>
+</resources>

@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:menuCategory="container">
+    <item
+            android:id="@+id/notification"
+            android:icon="@drawable/message"
+            app:showAsAction="ifRoom"
+            android:title="@string/notification" />
+    <item
+            android:id="@+id/profile"
+            android:icon="@drawable/account"
+            app:showAsAction="ifRoom"
+            android:title="@string/profile"/>
+    </group>
 
 </menu>

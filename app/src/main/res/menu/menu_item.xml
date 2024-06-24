@@ -2,16 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:menuCategory="container">
-    <item
-            android:id="@+id/notification"
+        <item
+            android:id="@+id/notification_menu"
             android:icon="@drawable/message"
-            app:showAsAction="ifRoom"
+            app:showAsAction="always"
             android:title="@string/notification" />
-    <item
-            android:id="@+id/profile"
+        <item
+            android:id="@+id/profile_menu"
             android:icon="@drawable/account"
-            app:showAsAction="ifRoom"
+            app:showAsAction="always"
             android:title="@string/profile"/>
     </group>
-
 </menu>

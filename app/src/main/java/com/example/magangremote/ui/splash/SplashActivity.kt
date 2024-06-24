@@ -7,6 +7,8 @@ import android.os.Looper
 import com.example.magangremote.R
 import com.example.magangremote.ui.auth.AuthActivity
 import com.example.magangremote.ui.home.HomeActivity
+import com.example.magangremote.ui.notification.NotificationActivity
+import com.example.magangremote.ui.profile.ProfileActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         android.os.Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, HomeActivity::class.java )
+            val intent = Intent(this, AuthActivity::class.java )
             startActivity(intent)
             finish()
         }, 3000)

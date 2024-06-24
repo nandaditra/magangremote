@@ -1,6 +1,7 @@
 package com.example.magangremote.ui.home
 
 import android.R
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -15,6 +16,8 @@ import com.example.magangremote.databinding.ActivityHomeBinding
 import com.example.magangremote.model.JobResponse
 import com.example.magangremote.model.JobsResultsItem
 import com.example.magangremote.model.Lowongan
+import com.example.magangremote.ui.notification.NotificationActivity
+import com.example.magangremote.ui.profile.ProfileActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,11 +34,11 @@ class HomeActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         binding.rvJobs.layoutManager = layoutManager
         binding.rvJobs.setHasFixedSize(true)
-
         supportActionBar?.setIcon(com.example.magangremote.R.drawable.icon_action_bar)
 
         supportActionBar?.setDisplayUseLogoEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
+
 //        getListLowongan();
     }
 
@@ -49,7 +52,6 @@ class HomeActivity : AppCompatActivity() {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         setListJob(responseBody.jobsResults)
-                        Log.d(TAG, "onSuccess: Hellooooo")
                     }
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")
@@ -81,9 +83,24 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(com.example.magangremote.R.menu.option_menu, menu)
+        menuInflater.inflate(com.example.magangremote.R.menu.menu_item, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            com.example.magangremote.R.id.notification_menu-> {
+                val i = Intent(this, NotificationActivity::class.java)
+                startActivity(i)
+                true
+            }
+            com.example.magangremote.R.id.profile_menu -> {
+                val i = Intent(this, ProfileActivity::class.java)
+                startActivity(i)
+                true
+            }
+            else -> true
+        }
     }
 
     companion object {

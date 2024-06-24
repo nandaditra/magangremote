@@ -21,6 +21,7 @@ import com.example.magangremote.ui.profile.ProfileActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.UUID
 
 
 class HomeActivity : AppCompatActivity() {
@@ -69,12 +70,13 @@ class HomeActivity : AppCompatActivity() {
         val listLowongan = ArrayList<Lowongan>()
 
         for (job in listJob) {
+            val id= UUID.randomUUID().toString();
             val jobTitle = job.title
             val company = job.companyName
             val location = job.location
             val postTime = job.extensions[0]
 
-            val inputLowongan = Lowongan(jobTitle,company,location, postTime)
+            val inputLowongan = Lowongan(id, jobTitle,company,location, postTime)
             listLowongan.add(inputLowongan)
         }
 

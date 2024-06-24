@@ -15,7 +15,7 @@ class LowonganAdapter(private val listJob: List<Lowongan>): RecyclerView.Adapter
         ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_list_job, parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val (job, company, location, timestamp) = listJob[position]
+        val (id ,job, company, location, timestamp) = listJob[position]
         holder.tvJobTitle.text = job
         holder.tvCompany.text = company
         holder.tvLocation.text = location

@@ -12,4 +12,11 @@
         <item name="android:fontFamily">@font/pt_sans</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="outline_button" parent="Widget.AppCompat.Button">
+        <item name="android:fontFamily">@font/pt_sans</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
 </resources>

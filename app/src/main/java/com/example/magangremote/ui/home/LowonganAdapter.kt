@@ -11,6 +11,10 @@ import com.example.magangremote.model.Lowongan
 
 class LowonganAdapter(private val listJob: List<Lowongan>): RecyclerView.Adapter<LowonganAdapter.ViewHolder>() {
 
+    private lateinit var onItemClickCallback: OnItemClickCallback
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
+        this.onItemClickCallback = onItemClickCallback
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_list_job, parent, false))
 
@@ -21,6 +25,7 @@ class LowonganAdapter(private val listJob: List<Lowongan>): RecyclerView.Adapter
         holder.tvLocation.text = location
         holder.tvTimeStamp.text = timestamp
 
+        holder.itemView.setOnClickListener{ onItemClickCallback.onItemClicked(listJob[holder.adapterPosition])}
     }
 
     override fun getItemCount() = listJob.size
@@ -30,6 +35,10 @@ class LowonganAdapter(private val listJob: List<Lowongan>): RecyclerView.Adapter
         val tvCompany: TextView = view.findViewById(R.id.tv_job_company)
         val tvLocation: TextView = view.findViewById(R.id.tv_job_location)
         val tvTimeStamp: TextView = view.findViewById(R.id.tv_job_timestamp)
+    }
+
+    interface OnItemClickCallback {
+        fun onItemClicked(job : Lowongan)
     }
 
 }

@@ -8,8 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.magangremote.R
 import com.example.magangremote.databinding.FragmentLoginBinding
+import com.example.magangremote.ui.detail.DetailActivity
 import com.example.magangremote.ui.home.HomeActivity
 import com.example.magangremote.ui.lupaPassword.LupaPasswordActivity
+//import com.google.firebase.Firebase
+//import com.google.firebase.auth.FirebaseAuth
+//import com.google.firebase.auth.auth
 
 class LoginFragment : Fragment() {
 
@@ -38,7 +42,6 @@ class LoginFragment : Fragment() {
             }
 
             btnMasuk.setOnClickListener {
-
                 val intent = Intent(activity, HomeActivity::class.java)
                 startActivity(intent)
             }

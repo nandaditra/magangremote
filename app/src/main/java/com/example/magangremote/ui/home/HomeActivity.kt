@@ -8,7 +8,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.magangremote.api.ApiConfig
@@ -16,6 +15,7 @@ import com.example.magangremote.databinding.ActivityHomeBinding
 import com.example.magangremote.model.JobResponse
 import com.example.magangremote.model.JobsResultsItem
 import com.example.magangremote.model.Lowongan
+import com.example.magangremote.ui.detail.DetailActivity
 import com.example.magangremote.ui.notification.NotificationActivity
 import com.example.magangremote.ui.profile.ProfileActivity
 import retrofit2.Call
@@ -66,6 +66,10 @@ class HomeActivity : AppCompatActivity() {
         })
     }
 
+    private fun getListLowonganByKeyword(){
+
+    }
+
     private fun setListJob(listJob: List<JobsResultsItem>) {
         val listLowongan = ArrayList<Lowongan>()
 
@@ -80,8 +84,22 @@ class HomeActivity : AppCompatActivity() {
             listLowongan.add(inputLowongan)
         }
 
+        Log.d("Result Data", "$listLowongan")
+
         val adapter = LowonganAdapter(listLowongan)
         binding.rvJobs.adapter = adapter
+
+        adapter.setOnItemClickCallback(object : LowonganAdapter.OnItemClickCallback{
+            override fun onItemClicked(data: Lowongan) {
+                Toast.makeText(this@HomeActivity, "You choose "+data.company, Toast.LENGTH_SHORT).show()
+                var moveDetail = Intent(this@HomeActivity, DetailActivity::class.java)
+
+                moveDetail.putExtra(DetailActivity.EXTRA_NAME, data.jobName)
+                moveDetail.putExtra(DetailActivity.EXTRA_COMPANY, data.company)
+                moveDetail.putExtra(DetailActivity.EXTRA_LOCATION, data.location)
+                startActivity(moveDetail)
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.auth.signup.SignUpFragment">
 
@@ -61,16 +62,26 @@
         android:textColor="@color/blue"
         />
 
-    <EditText
-        android:id="@+id/input_password_signup"
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawablePadding="5dp"
-        android:fontFamily="@font/pt_sans"
-        android:textSize="14sp"
-        android:padding="12dp"
-        android:background="@drawable/custom_input"
-        android:layout_marginHorizontal="35dp" />
+        android:layout_height="45sp"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        android:layout_marginHorizontal="35dp"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_password_signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:background="@drawable/custom_input"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
 
     <TextView
@@ -84,16 +95,25 @@
         android:textColor="@color/blue"
         />
 
-    <EditText
-        android:id="@+id/input_confirm_password_signup"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etPasswordLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawablePadding="5dp"
-        android:fontFamily="@font/pt_sans"
-        android:textSize="14sp"
-        android:padding="12dp"
-        android:background="@drawable/custom_input"
-        android:layout_marginHorizontal="35dp" />
+        android:layout_height="45sp"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        android:layout_marginHorizontal="35dp"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_confirm_password_signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:background="@drawable/custom_input"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btn_login"

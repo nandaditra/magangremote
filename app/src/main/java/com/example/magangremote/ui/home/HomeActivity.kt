@@ -18,6 +18,8 @@ import com.example.magangremote.model.Lowongan
 import com.example.magangremote.ui.detail.DetailActivity
 import com.example.magangremote.ui.notification.NotificationActivity
 import com.example.magangremote.ui.profile.ProfileActivity
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.firestore.FirebaseFirestore
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,10 +29,13 @@ import java.util.UUID
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var fireStoreDatabase:FirebaseFirestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        fireStoreDatabase = FirebaseFirestore.getInstance()
 
         val layoutManager = LinearLayoutManager(this)
         binding.rvJobs.layoutManager = layoutManager
@@ -40,7 +45,7 @@ class HomeActivity : AppCompatActivity() {
         supportActionBar?.setDisplayUseLogoEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
 
-//        getListLowongan();
+        getListLowongan();
     }
 
     private fun getListLowongan() {
@@ -82,6 +87,15 @@ class HomeActivity : AppCompatActivity() {
 
             val inputLowongan = Lowongan(id, jobTitle,company,location, postTime)
             listLowongan.add(inputLowongan)
+
+            val documentReference = fireStoreDatabase.collection("lowongan").document(id)
+            documentReference.set(inputLowongan).addOnSuccessListener(OnSuccessListener {
+                Log.d(TAG, "lowongan successfully written!")
+            }).addOnFailureListener { e ->
+                // Handle any errors
+                Log.w(TAG, "Error writing lowongan", e)
+            }
+
         }
 
         Log.d("Result Data", "$listLowongan")

@@ -1,6 +1,5 @@
 package com.example.magangremote.ui.home
 
-import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,9 +7,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import android.widget.ViewFlipper
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.magangremote.api.ApiConfig
+import com.example.magangremote.auth.UserPreferences
 import com.example.magangremote.databinding.ActivityHomeBinding
 import com.example.magangremote.model.JobResponse
 import com.example.magangremote.model.JobsResultsItem
@@ -18,87 +21,90 @@ import com.example.magangremote.model.Lowongan
 import com.example.magangremote.ui.detail.DetailActivity
 import com.example.magangremote.ui.notification.NotificationActivity
 import com.example.magangremote.ui.profile.ProfileActivity
-import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.UUID
 
 
 class HomeActivity : AppCompatActivity() {
-
+    private lateinit var dataPreferences: UserPreferences
     private lateinit var binding: ActivityHomeBinding
     private lateinit var fireStoreDatabase:FirebaseFirestore
+    private lateinit var firebaseAuth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         fireStoreDatabase = FirebaseFirestore.getInstance()
+        firebaseAuth = Firebase.auth
+        dataPreferences = UserPreferences(this)
 
+        val model = ViewModelProvider(this)[HomeViewModel::class.java]
         val layoutManager = LinearLayoutManager(this)
+
         binding.rvJobs.layoutManager = layoutManager
         binding.rvJobs.setHasFixedSize(true)
-        supportActionBar?.setIcon(com.example.magangremote.R.drawable.icon_action_bar)
 
+        supportActionBar?.setIcon(com.example.magangremote.R.drawable.icon_action_bar)
         supportActionBar?.setDisplayUseLogoEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
 
-        getListLowongan();
-    }
+        var newQuery:String = ""
+        var newLocation:String = ""
 
-    private fun getListLowongan() {
-        binding.progressBar.visibility = View.VISIBLE
-        val client = ApiConfig.getApiService().getAllListJobs(query, location, ltype)
-        client.enqueue(object: Callback<JobResponse> {
-            override fun onResponse(call: Call<JobResponse>, response: Response<JobResponse>) {
-                binding.progressBar.visibility = View.INVISIBLE
-                if(response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null) {
-                        setListJob(responseBody.jobsResults)
-                    }
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                }
+        if(newQuery.isEmpty() && newLocation.isEmpty())  {
+            model.getListLowongan(query, location, ltype)
+            model.listLowongan.observe(this){ responseBody ->
+                showListLowongan(responseBody)
             }
-
-            override fun onFailure(call: Call<JobResponse>, t: Throwable) {
-                binding.progressBar.visibility = View.INVISIBLE
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-        })
-    }
-
-    private fun getListLowonganByKeyword(){
-
-    }
-
-    private fun setListJob(listJob: List<JobsResultsItem>) {
-        val listLowongan = ArrayList<Lowongan>()
-
-        for (job in listJob) {
-            val id= UUID.randomUUID().toString();
-            val jobTitle = job.title
-            val company = job.companyName
-            val location = job.location
-            val postTime = job.extensions[0]
-
-            val inputLowongan = Lowongan(id, jobTitle,company,location, postTime)
-            listLowongan.add(inputLowongan)
-
-            val documentReference = fireStoreDatabase.collection("lowongan").document(id)
-            documentReference.set(inputLowongan).addOnSuccessListener(OnSuccessListener {
-                Log.d(TAG, "lowongan successfully written!")
-            }).addOnFailureListener { e ->
-                // Handle any errors
-                Log.w(TAG, "Error writing lowongan", e)
-            }
-
         }
 
-        Log.d("Result Data", "$listLowongan")
+        binding.imgEmpty.visibility = View.GONE
+        binding.btnSearch.setOnClickListener {
+            val query = binding.textInput.text.toString().trim();
+            val location = binding.locationInput.text.toString().trim();
+            newQuery = query
+            newLocation = location
+            model.getListLowonganByKeyword(query, location)
+            model.listLowongan.observe(this){ responseBody ->
+                showListLowongan(responseBody)
+            }
+        }
+
+        model.isLoading.observe(this) {
+            showLoading(it)
+        }
+    }
+
+    private fun showListLowongan(listJob: List<JobsResultsItem>) {
+        val listLowongan = ArrayList<Lowongan>()
+
+        if(listJob == null) {
+            binding.rvJobs.visibility = View.GONE
+            binding.imgEmpty.visibility = View.VISIBLE
+        } else {
+            binding.rvJobs.visibility = View.VISIBLE
+            binding.imgEmpty.visibility = View.GONE
+            for (job in listJob) {
+                val id= job.jobId
+                val jobTitle = job.title
+                val company = job.companyName
+                val location = job.location
+                val image = job.thumbnail
+                val description = job.description
+                val urlJob = ""
+                val postTime = job.extensions[0]
+
+                val inputLowongan = Lowongan(id, jobTitle,company,location, image, description,urlJob, postTime)
+                listLowongan.add(inputLowongan)
+            }
+        }
+
 
         val adapter = LowonganAdapter(listLowongan)
         binding.rvJobs.adapter = adapter
@@ -108,7 +114,10 @@ class HomeActivity : AppCompatActivity() {
                 Toast.makeText(this@HomeActivity, "You choose "+data.company, Toast.LENGTH_SHORT).show()
                 var moveDetail = Intent(this@HomeActivity, DetailActivity::class.java)
 
+                moveDetail.putExtra(DetailActivity.EXTRA_ID, data.id)
                 moveDetail.putExtra(DetailActivity.EXTRA_NAME, data.jobName)
+                moveDetail.putExtra(DetailActivity.EXTRA_DESC, data.description)
+                moveDetail.putExtra(DetailActivity.EXTRA_IMG,data.imageCompany )
                 moveDetail.putExtra(DetailActivity.EXTRA_COMPANY, data.company)
                 moveDetail.putExtra(DetailActivity.EXTRA_LOCATION, data.location)
                 startActivity(moveDetail)
@@ -135,6 +144,15 @@ class HomeActivity : AppCompatActivity() {
             }
             else -> true
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 
     companion object {

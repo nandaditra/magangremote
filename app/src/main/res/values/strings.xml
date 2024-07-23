@@ -29,6 +29,9 @@
     <string name="nomor_handphone">nomor handphone</string>
     <string name="photo_profile">photo profile</string>
     <string name="masuk">Masuk</string>
+    <string name="notification_title">Magang Remote</string>
+    <string name="notification_message">Ada lowongan baru sesuai dengan minatmu loh</string>
+    <string name="notification_subtext">Reminder</string>
     <string name="daftar">Daftar</string>
     <string name="masuk_text">Masuk</string>
     <string name="lupa_kata_sandi">lupa kata sandi</string>

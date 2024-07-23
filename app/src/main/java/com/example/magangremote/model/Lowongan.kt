@@ -6,6 +6,7 @@ data class Lowongan (
      var company: String? = "",
      var location: String? = "",
      var imageCompany: String? = "",
+     var description: String? = "",
      var urlJob: String? = "",
      var timestamp: String? = "",
     )

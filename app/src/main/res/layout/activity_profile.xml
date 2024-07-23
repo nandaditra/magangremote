@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -25,6 +25,7 @@
             />
 
         <TextView
+            android:id="@+id/text_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10sp"
@@ -32,10 +33,13 @@
             android:textSize="14sp"
             android:layout_marginHorizontal="35dp"
             android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_profile"
             />
 
         <EditText
-            android:id="@+id/input_name_signup"
+            android:id="@+id/input_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
@@ -43,9 +47,13 @@
             android:textSize="14sp"
             android:padding="12dp"
             android:background="@drawable/custom_input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_name"
             android:layout_marginHorizontal="35dp" />
 
         <TextView
+            android:id="@+id/text_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10sp"
@@ -53,10 +61,13 @@
             android:textSize="14sp"
             android:layout_marginHorizontal="35dp"
             android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_name"
             />
 
         <EditText
-            android:id="@+id/input_email_signup"
+            android:id="@+id/input_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
@@ -64,77 +75,77 @@
             android:textSize="14sp"
             android:padding="12dp"
             android:background="@drawable/custom_input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_email"
             android:layout_marginHorizontal="35dp" />
 
         <TextView
+            android:id="@+id/text_hp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10sp"
             android:text="@string/nomor_handphone"
             android:textSize="14sp"
             android:layout_marginHorizontal="35dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_email"
             android:textColor="@color/black"
             />
 
         <EditText
-            android:id="@+id/input_password_signup"
+            android:id="@+id/input_handphone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
             android:fontFamily="sans-serif"
             android:textSize="14sp"
             android:padding="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_hp"
             android:background="@drawable/custom_input"
             android:layout_marginHorizontal="35dp" />
 
 
         <TextView
+            android:id="@+id/text_interest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10sp"
             android:text="minat"
             android:textSize="14sp"
             android:layout_marginHorizontal="35dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_handphone"
             android:textColor="@color/black"
             />
 
         <EditText
-            android:id="@+id/input_confirm_password_signup"
+            android:id="@+id/input_interest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
             android:fontFamily="sans-serif"
             android:textSize="14sp"
             android:padding="12dp"
-            android:background="@drawable/custom_input"
-            android:layout_marginHorizontal="35dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
-            android:text="@string/password"
-            android:textSize="14sp"
-            android:layout_marginHorizontal="35dp"
-            android:textColor="@color/black"
-            />
-
-        <EditText
-            android:id="@+id/input_confirm_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:fontFamily="sans-serif"
-            android:textSize="14sp"
-            android:padding="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_interest"
             android:background="@drawable/custom_input"
             android:layout_marginHorizontal="35dp" />
 
         <TableLayout
+            android:id="@+id/table_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50sp"
             android:layout_marginHorizontal="35dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_interest"
             android:stretchColumns="*">
 
             <TableRow >
@@ -171,20 +182,34 @@
         </TableLayout>
 
         <Button
+            android:id="@+id/btn_logut"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginTop="10sp"
-            android:layout_marginBottom="20sp"
+            android:layout_marginBottom="50sp"
             android:layout_marginHorizontal="35dp"
             android:textStyle="bold"
             android:textSize="20sp"
             android:backgroundTint="@color/red"
             android:textAppearance="@style/tab_text"
             android:fontFamily="@font/pt_sans"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/table_layout"
             android:padding="10sp"
             android:text="logout"
             android:textColor="@color/white"
             />
-    </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_gravity="center" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

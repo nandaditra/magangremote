@@ -1,4 +1,4 @@
- package com.example.magangremote.ui.lupaPassword
+ package com.example.magangremote.ui.auth.lupaPassword
 
 import android.content.Intent
 import android.os.Bundle

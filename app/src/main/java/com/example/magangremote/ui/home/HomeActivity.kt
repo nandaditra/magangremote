@@ -33,15 +33,12 @@ import retrofit2.Response
 class HomeActivity : AppCompatActivity() {
     private lateinit var dataPreferences: UserPreferences
     private lateinit var binding: ActivityHomeBinding
-    private lateinit var fireStoreDatabase:FirebaseFirestore
-    private lateinit var firebaseAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        fireStoreDatabase = FirebaseFirestore.getInstance()
-        firebaseAuth = Firebase.auth
         dataPreferences = UserPreferences(this)
 
         val model = ViewModelProvider(this)[HomeViewModel::class.java]

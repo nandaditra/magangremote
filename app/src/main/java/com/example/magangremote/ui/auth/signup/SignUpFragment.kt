@@ -9,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import com.example.magangremote.R
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
 import com.example.magangremote.databinding.FragmentSignUpBinding
 import com.example.magangremote.model.User
 import com.example.magangremote.ui.auth.AuthActivity
+import com.example.magangremote.ui.auth.AuthViewModel
+import com.example.magangremote.ui.detail.DetailViewModel
 import com.example.magangremote.ui.home.HomeActivity.Companion.TAG
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
@@ -21,29 +23,25 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.ktx.app
-import java.util.Objects
 
 
 class SignUpFragment : Fragment() {
 
     private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
-    private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var fireStoreDatabase: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        firebaseAuth = Firebase.auth
-        fireStoreDatabase = FirebaseFirestore.getInstance()
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val model = ViewModelProvider(this)[AuthViewModel::class.java]
 
         binding.apply {
             btnLogin.setOnClickListener {
@@ -67,38 +65,21 @@ class SignUpFragment : Fragment() {
                     password.isNotEmpty() &&
                     name.isNotEmpty() &&
                     confirmPassword.isNotEmpty()) {
-                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(
-                        OnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                // Sign in success, update UI with the signed-in user's information
-                                val userId = firebaseAuth.currentUser?.uid
-                                val documentReference = fireStoreDatabase.collection("user").document(userId.toString())
-                                val user = User(userId, name, email, handphoneNumber = "",imageUri = null, interest = listOf())
-                                documentReference.set(user).addOnSuccessListener(OnSuccessListener {
-                                    Log.d(TAG, "user successfully written!")
-                                }).addOnFailureListener { e ->
-                                    // Handle any errors
-                                    Log.w(TAG, "Error writing user", e)
-                                }
-                                Toast.makeText(
-                                    context,
-                                    "Pendaftaran Berhasil",
-                                    Toast.LENGTH_SHORT,
-                                ).show()
-                                Log.d(TAG, "createUserWithEmail:success")
-                                startActivity(Intent(context, AuthActivity::class.java))
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                                Toast.makeText(
-                                    context,
-                                    "Pendaftaran Gagal.",
-                                    Toast.LENGTH_SHORT,
-                                ).show()
-                            }
-                        })
+                    model.register(email, name, password)
+                    model.response.observe(context as LifecycleOwner){ response->
+                           register(response)
+                    }
                 }
             }
+        }
+    }
+
+    private fun register(response:String) {
+        if(response == "success") {
+            Toast.makeText(context, "Pendaftaran Berhasil", Toast.LENGTH_SHORT,).show()
+            startActivity(Intent(context, AuthActivity::class.java))
+        } else {
+            Toast.makeText(context, "Pendaftaran Gagal.", Toast.LENGTH_SHORT,).show()
         }
     }
 

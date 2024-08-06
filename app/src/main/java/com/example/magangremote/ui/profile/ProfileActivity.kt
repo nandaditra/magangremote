@@ -114,6 +114,7 @@ class ProfileActivity : AppCompatActivity() {
                     inputHandphone.setText(snapshot.getString("handphoneNumber"))
                     inputInterest.setText(snapshot.getString("interest"))
                 }
+
                 if(snapshot.getString("imageUrl") != null) {
                     Glide.with(this@ProfileActivity)
                         .load(snapshot.getString("imageUrl"))
@@ -169,10 +170,12 @@ class ProfileActivity : AppCompatActivity() {
                       binding.progressBar.visibility = View.INVISIBLE
                       if(task != null) {
                          newImg = task
+                          //Move to application
                           Glide.with(this@ProfileActivity)
                               .load(task)
                               .apply(RequestOptions().override(1000,1000))
                               .into(binding.imageProfile)
+                          //Move to nanda
                       }
                       Toast.makeText(this@ProfileActivity, "Photo Successfully Changes", Toast.LENGTH_SHORT).show()
                   }

@@ -9,9 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
 import com.example.magangremote.R
 import com.example.magangremote.auth.UserPreferences
 import com.example.magangremote.databinding.FragmentLoginBinding
+import com.example.magangremote.ui.auth.AuthViewModel
 import com.example.magangremote.ui.detail.DetailActivity
 import com.example.magangremote.ui.home.HomeActivity
 import com.example.magangremote.ui.home.HomeActivity.Companion.TAG
@@ -34,6 +37,7 @@ class LoginFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         auth = Firebase.auth
+        dataPreferences = UserPreferences(requireContext())
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -41,7 +45,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dataPreferences = UserPreferences(requireContext())
+        val model = ViewModelProvider(this)[AuthViewModel::class.java]
+
         binding.apply {
             textForgetpassword.setOnClickListener{
                 val intent = Intent(activity, LupaPasswordActivity::class.java)
@@ -52,39 +57,16 @@ class LoginFragment : Fragment() {
                 val email = binding.inputEmailLogin.text.toString().trim();
                 val password = binding.inputPasswordLogin.text.toString().trim();
 
-                if(TextUtils.isEmpty(email)) {
-                    inputEmailLogin.error = "Email kosong"
-                }
-
-                if(TextUtils.isEmpty(password)) {
-                    inputPasswordLogin.error = "Password kosong"
-                }
-
+                if(TextUtils.isEmpty(email)) inputEmailLogin.error = "Email kosong"
+                if(TextUtils.isEmpty(password)) inputPasswordLogin.error = "Password kosong"
                 if(email.isNotEmpty() && password.isNotEmpty()) {
-                    try {
-                        auth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener( OnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.d(TAG, "Login berhasil")
-                                    val token = auth.currentUser?.uid.toString()
-                                    dataPreferences.setInput(UserPreferences.TOKEN, token)
-                                    dataPreferences.setLogin(UserPreferences.IS_LOGIN, true)
-                                    val intent = Intent(activity, HomeActivity::class.java)
-                                    startActivity(intent)
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "login gagal", task.exception)
-                                    Toast.makeText(
-                                        context,
-                                        "Login gagal",
-                                        Toast.LENGTH_SHORT,
-                                    ).show()
-                                } })
-                    }catch (e:Error) {
-                        Log.e(TAG, "login gagal",e)
+                    model.login(email, password)
+                    model.token.observe(viewLifecycleOwner){ token->
+                        dataPreferences.setInput(UserPreferences.TOKEN, token)
+                        dataPreferences.setLogin(UserPreferences.IS_LOGIN, true)
+                        val intent = Intent(activity, HomeActivity::class.java)
+                        startActivity(intent)
                     }
-
                 }
             }
         }

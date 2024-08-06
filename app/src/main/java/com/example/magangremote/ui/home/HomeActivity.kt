@@ -1,14 +1,13 @@
 package com.example.magangremote.ui.home
 
 import android.content.Intent
+import android.health.connect.datatypes.units.Length
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import android.widget.ViewFlipper
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,14 +20,9 @@ import com.example.magangremote.model.Lowongan
 import com.example.magangremote.ui.detail.DetailActivity
 import com.example.magangremote.ui.notification.NotificationActivity
 import com.example.magangremote.ui.profile.ProfileActivity
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
-import com.google.firebase.firestore.FirebaseFirestore
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var dataPreferences: UserPreferences
@@ -54,8 +48,9 @@ class HomeActivity : AppCompatActivity() {
         var newQuery:String = ""
         var newLocation:String = ""
 
-        if(newQuery.isEmpty() && newLocation.isEmpty())  {
-            model.getListLowongan(query, location, ltype)
+
+        if(query != null) {
+            model.getListLowongan(query)
             model.listLowongan.observe(this){ responseBody ->
                 showListLowongan(responseBody)
             }
@@ -72,7 +67,6 @@ class HomeActivity : AppCompatActivity() {
                 showListLowongan(responseBody)
             }
         }
-
         model.isLoading.observe(this) {
             showLoading(it)
         }
@@ -84,6 +78,8 @@ class HomeActivity : AppCompatActivity() {
         if(listJob == null) {
             binding.rvJobs.visibility = View.GONE
             binding.imgEmpty.visibility = View.VISIBLE
+            showLoading(false)
+            return
         } else {
             binding.rvJobs.visibility = View.VISIBLE
             binding.imgEmpty.visibility = View.GONE
@@ -100,26 +96,25 @@ class HomeActivity : AppCompatActivity() {
                 val inputLowongan = Lowongan(id, jobTitle,company,location, image, description,urlJob, postTime)
                 listLowongan.add(inputLowongan)
             }
+
+            val adapter = LowonganAdapter(listLowongan)
+            binding.rvJobs.adapter = adapter
+
+            adapter.setOnItemClickCallback(object : LowonganAdapter.OnItemClickCallback{
+                override fun onItemClicked(data: Lowongan) {
+                    Toast.makeText(this@HomeActivity, "You choose "+data.company, Toast.LENGTH_SHORT).show()
+                    var moveDetail = Intent(this@HomeActivity, DetailActivity::class.java)
+
+                    moveDetail.putExtra(DetailActivity.EXTRA_ID, data.id)
+                    moveDetail.putExtra(DetailActivity.EXTRA_NAME, data.jobName)
+                    moveDetail.putExtra(DetailActivity.EXTRA_DESC, data.description)
+                    moveDetail.putExtra(DetailActivity.EXTRA_IMG,data.imageCompany )
+                    moveDetail.putExtra(DetailActivity.EXTRA_COMPANY, data.company)
+                    moveDetail.putExtra(DetailActivity.EXTRA_LOCATION, data.location)
+                    startActivity(moveDetail)
+                }
+            })
         }
-
-
-        val adapter = LowonganAdapter(listLowongan)
-        binding.rvJobs.adapter = adapter
-
-        adapter.setOnItemClickCallback(object : LowonganAdapter.OnItemClickCallback{
-            override fun onItemClicked(data: Lowongan) {
-                Toast.makeText(this@HomeActivity, "You choose "+data.company, Toast.LENGTH_SHORT).show()
-                var moveDetail = Intent(this@HomeActivity, DetailActivity::class.java)
-
-                moveDetail.putExtra(DetailActivity.EXTRA_ID, data.id)
-                moveDetail.putExtra(DetailActivity.EXTRA_NAME, data.jobName)
-                moveDetail.putExtra(DetailActivity.EXTRA_DESC, data.description)
-                moveDetail.putExtra(DetailActivity.EXTRA_IMG,data.imageCompany )
-                moveDetail.putExtra(DetailActivity.EXTRA_COMPANY, data.company)
-                moveDetail.putExtra(DetailActivity.EXTRA_LOCATION, data.location)
-                startActivity(moveDetail)
-            }
-        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -154,8 +149,6 @@ class HomeActivity : AppCompatActivity() {
 
     companion object {
         var query: String = "intern"
-        var location: String = "indonesia"
-        var ltype: Int = 1
         const val TAG = "HomeActivity"
     }
 }

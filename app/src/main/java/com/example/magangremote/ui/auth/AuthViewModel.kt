@@ -9,9 +9,6 @@ import com.example.magangremote.repository.LowonganRepository
 import com.example.magangremote.ui.home.HomeActivity
 
 class AuthViewModel: ViewModel() {
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
-
     private val _token = MutableLiveData<String>()
     val token: LiveData<String> = _token
 
@@ -21,7 +18,13 @@ class AuthViewModel: ViewModel() {
     private val repository = AuthRepository()
 
     fun login(email:String, password:String){
-
+        repository.login(email, password) { result ->
+            result.onSuccess { results ->
+                _token.postValue(results)
+            }.onFailure { throwable ->
+                Log.d("LoginFragment", "onFailure: ${throwable.message}")
+            }
+        }
     }
 
     fun register(email:String, name:String, password:String){

@@ -10,8 +10,6 @@ interface ApiService {
     @GET("/search?engine=google_jobs&api_key=$apiKey")
     fun getAllListJobs(
         @Query("q") q: String,
-        @Query("location") location: String,
-        @Query("ltype") ltype: Int,
     ): Call<JobResponse>
 
     @GET("/search?engine=google_jobs&api_key=$apiKey")

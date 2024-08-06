@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class JobResponse(
 	@field:SerializedName("jobs_results")
-	val jobsResults: List<JobsResultsItem>,
+	val jobsResults: List<JobsResultsItem>? = null,
 )
 data class JobHighlightsItem(
 

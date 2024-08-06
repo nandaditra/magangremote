@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.magangremote.databinding.ActivityLupaPasswordBinding
 import com.example.magangremote.ui.auth.AuthActivity
+import com.example.magangremote.ui.auth.AuthViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -20,8 +22,9 @@ import com.google.firebase.auth.FirebaseAuth
         setContentView(binding.root)
         firebaseAuth = FirebaseAuth.getInstance()
         actionBar?.setDisplayHomeAsUpEnabled(true)
-        
-        binding.btnForgetPassword.setOnClickListener { forgotPassword() }
+
+        val model = ViewModelProvider(this)[LupaPasswordViewModel::class.java]
+        binding.btnForgetPassword.setOnClickListener { forgotPassword(model) }
     }
 
      override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -34,16 +37,17 @@ import com.google.firebase.auth.FirebaseAuth
          return super.onContextItemSelected(item)
      }
 
-     private fun forgotPassword() {
-         var email = binding.inputEmailLogin.text.trim().toString()
+     private fun forgotPassword(model: LupaPasswordViewModel) {
+         val email = binding.inputEmailLogin.text.trim().toString()
          if(email.isEmpty()) {
              binding.inputEmailLogin.error = "Email tidak boleh kosong"
          } else {
-             firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener{
-                 if (it.isSuccessful){
+             model.forgotPassword(email)
+             model.status.observe(this@LupaPasswordActivity){
+                 if(it == true) {
                      Toast.makeText(this, "Check email to reset password", Toast.LENGTH_SHORT).show()
                      startActivity(Intent(this, AuthActivity::class.java))
-                 }else{
+                 } else {
                      Toast.makeText(this, "Failed to reset password", Toast.LENGTH_SHORT).show()
                  }
              }

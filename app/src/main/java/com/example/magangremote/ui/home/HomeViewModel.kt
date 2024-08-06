@@ -21,16 +21,16 @@ class HomeViewModel: ViewModel() {
     val listLowongan:LiveData<List<JobsResultsItem>> = _listLowongan
 
     private val repository = LowonganRepository()
-    fun getListLowongan(query: String, location: String, ltype: Int) {
+    fun getListLowongan(query: String) {
         _isLoading.value = true
-        repository.getAllListJobs(query, location, ltype) { result ->
+        repository.getAllListJobs(query){ result ->
             _isLoading.value = false
-            result.onSuccess { jobsResults ->
-                _listLowongan.postValue(jobsResults)
+            result.onSuccess { results ->
+                _listLowongan.postValue(results)
             }.onFailure { throwable ->
-                Log.e(HomeActivity.TAG, "onFailure: ${throwable.message}")
+                Log.d(HomeActivity.TAG, "onFailure : ${throwable.message}")
             }
-          }
+        }
     }
 
     fun getListLowonganByKeyword(query: String, locationId: String) {
